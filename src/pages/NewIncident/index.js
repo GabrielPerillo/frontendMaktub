@@ -71,8 +71,12 @@ export default function NewIncident(props) {
     <div className="content">
         <section>
             <img src={logoImg} alt="logo"/>
-
-            <h1>Cadastrar personagem</h1>
+            
+            { action != "edit" ?
+          <h1>Cadastrar personagem</h1>
+          :
+          <h1>Editar personagem</h1>
+        }
             <p>Descreva o personagem detalhadamente para as pessoas o conhecerem melhor.</p>
 
             <Link className="back-link" to="/profile">
@@ -80,6 +84,7 @@ export default function NewIncident(props) {
                 Voltar para a tela de personagens cadastrados
             </Link>
         </section>
+        
 
         <form onSubmit={handleNewIncident}>
             <input 
@@ -106,7 +111,13 @@ export default function NewIncident(props) {
                 onChange={e => setUrlImagem(e.target.value)}
             />
             
-            <button className="button" type="submit">Cadastrar</button>
+            {
+            action != 'edit' ?
+                <button className="button" type="submit">Cadastrar</button>
+                :
+                <button className="button" type="submit">Editar</button>
+            }
+
         </form>
     </div>
 </div>)
