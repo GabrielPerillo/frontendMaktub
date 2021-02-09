@@ -1,9 +1,6 @@
- import React, { useState } from 'react';
+import React, { useState } from 'react';
 
 import { Link, useHistory } from 'react-router-dom';
-import {FiLogIn} from 'react-icons/fi';
-
-import api from '../../services/api';
 
 import './styles.css';
 
@@ -24,10 +21,10 @@ export default function Logon(){
 
                 <form>
                     <h1>Bem vindo(a)!! <br /><br /> 
-                        Navegue pelo site para conhecer mais sobre os personagens de Tom & Jerry!
+                        Navegue pelo site para conhecer mais sobre os personagens de Tom & Jerry™!
                     </h1>
 
-                    <button className="button" onClick={handleLogin} type="submit">Logar</button>
+                    <button className="button" onClick={handleLogin} type="submit">Navegar</button>
 
                 </form>
             </section>

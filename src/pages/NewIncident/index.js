@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 
@@ -7,40 +7,72 @@ import './styles.css';
 
 import logoImg from '../../assets/logo.png'
 
-export default function NewIncident() {
+export default function NewIncident(props) {
     const [nome, setNome] = useState('');
     const [descricao_curta, setDescricaoCurta] = useState('');
     const [descricao_completa, setDescricaoCompleta] = useState('');
     const [url_imagem, setUrlImagem] = useState('');
 
+    var search = props.location.search;
+    var params = new URLSearchParams(search);
+    var action = params.get('action');
+    var id = props.match.params.id;
+
+    useEffect(() => {
+        if (action === 'edit' && id !== '') {
+            api.get(`personagens/${id}`)
+            .then(response => {    
+                console.log(response.data);
+                setNome(response.data.personagem.nome);
+                setDescricaoCurta(response.data.personagem.descricao_curta);
+                setDescricaoCompleta(response.data.personagem.descricao_completa);
+                setUrlImagem(response.data.personagem.url_imagem);
+            });
+        } else {
+            return;
+        }
+    }, []);
+
     const history = useHistory();
 
-    async function handleNewIncident(e) {
-        e.preventDefault();     // Prevenir o comportamento padrão da página(atualizar depois de enviar dados)
 
+    async function handleNewIncident(e){
+        e.preventDefault();
+      
+        
         const data = {
-            nome,
-            descricao_curta,
-            descricao_completa,
-            url_imagem,
+          nome,
+          descricao_curta,
+          descricao_completa,
+          url_imagem
         };
-
-        try{
-            await api.post('personagens', data);
-
-            alert('Personagem cadastrado com sucesso!!');
-            history.push('/profile');
-        } catch(err) {
-            alert('Erro ao cadastrar o personagem, tente novamente.' + err);
+        if (action === 'edit') {
+          try {
+              const response = await api.put(`/personagens/${id}`, data, {
+              });
+              history.push('/profile');
+          } catch (err) {
+            alert(err+ "Ocorreu um erro. Favor contatar o administrador do sistema.");
+          }
+        } else {
+          
+          try {
+              const response = await api.post('personagens', data, {
+              });
+              history.push('/profile');
+          } catch (err) {
+              alert(err+  "Ocorreu um erro. Favor contatar o administrador do sistema.");
+          }  
         }
-    }
+      
+      }
 
     return ( <div className="new-incident-container">
     <div className="content">
         <section>
             <img src={logoImg} alt="logo"/>
 
-            <h1>Cadastrar novo personagem</h1>
+            <h1>Cadastrar personagem</h1>
             <p>Descreva o personagem detalhadamente para as pessoas o conhecerem melhor.</p>
 
             <Link className="back-link" to="/profile">

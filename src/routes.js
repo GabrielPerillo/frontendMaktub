@@ -3,16 +3,15 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Logon from './pages/Logon';
 import Profile from './pages/Profile';
 import NewIncident from './pages/NewIncident';
-import Details from './pages/Details';
 
-export default function Routes() {
+export default function Routes(props) {
     return (
         <BrowserRouter>
             <Switch>
                 <Route path="/" exact component={Logon} />
                 <Route path="/profile" component={Profile} />
-                <Route path="/incidents/new" component={NewIncident} />
-                <Route path="/details" component={Details} />
+                <Route path="/personagens/new" component={NewIncident} />
+                <Route path="/personagens/:id" component={NewIncident} />
             </Switch>
         </BrowserRouter>
     );
